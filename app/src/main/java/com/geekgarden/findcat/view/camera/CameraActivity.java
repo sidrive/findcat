@@ -152,12 +152,12 @@ public class CameraActivity extends AppCompatActivity {
             param.response = response;
 
             ActivityUtils.startActivityWParam(CameraActivity.this, InfoProductActivity.class, InfoProductActivity.paramKey, param);
-            isPreviewed = true;
         }
 
         @Override
         public void onError(String message) {
             DialogUtils.dialog(CameraActivity.this, message, 256);
+            isPreviewed = false;
         }
 
         @Override

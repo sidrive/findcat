@@ -52,7 +52,7 @@ public class Search {
             public int id;
             public String name;
             public String description;
-            public String score;
+            public int score;
         }
     }
 }

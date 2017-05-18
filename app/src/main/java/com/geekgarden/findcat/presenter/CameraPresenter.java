@@ -34,6 +34,7 @@ public class CameraPresenter {
 
     public void setSearchProductListener(SearchProductListener searchProductListener) {
         this.searchProductListener = searchProductListener;
+        this.subscription = new CompositeSubscription();
     }
 
     public File savePhoto(byte[] photoBytes) {
