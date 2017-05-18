@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geekgarden.findcat.R;
+import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.utils.ActivityUtils;
 import com.geekgarden.findcat.widget.NonScrollableLinearLayoutManager;
 
@@ -21,13 +22,21 @@ import java.util.List;
 
 public class InfoProductActivity extends AppCompatActivity {
 
+    public static final String paramKey = InfoProductActivity.class.getName().concat("1");
+
+    public static class Param {
+        public Search.Response response;
+    }
+
     private List<Product> products;
     private InfoProductAdapter adapter;
+    private Param param;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_product);
+        param = ActivityUtils.getParam(this, paramKey, Param.class);
 
         init();
         loadData();

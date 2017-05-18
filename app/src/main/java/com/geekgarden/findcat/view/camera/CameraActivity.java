@@ -1,5 +1,6 @@
 package com.geekgarden.findcat.view.camera;
 
+import android.app.ProgressDialog;
 import android.hardware.Camera;
 import android.media.MediaActionSound;
 import android.os.Bundle;
@@ -9,13 +10,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.geekgarden.findcat.BuildConfig;
 import com.geekgarden.findcat.R;
+import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.presenter.CameraPresenter;
+import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.view.product.InfoProductActivity;
 import com.geekgarden.findcat.utils.ActivityUtils;
-import com.geekgarden.findcat.utils.HardwareUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
 
 /**
@@ -31,6 +33,7 @@ public class CameraActivity extends AppCompatActivity {
     private boolean isPreviewed;
     private boolean isFlashOn;
     private byte[] previewedPhoto;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +74,10 @@ public class CameraActivity extends AppCompatActivity {
         if (camera == null)
             return;
 
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Analyzing...");
         presenter = new CameraPresenter(this);
+        presenter.setSearchProductListener(onSearchProductListener);
         cameraPreview = new CameraPreview(this, camera);
         ((FrameLayout) findViewById(R.id.surface_camera)).addView(cameraPreview);
 
@@ -111,9 +117,12 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onOkClicked = view -> {
-//        presenter.savePhoto(previewedPhoto);
+        Search.Request request = new Search.Request();
+        request.apiToken = BuildConfig.FindCatStaticToken;
+        request.image = presenter.savePhoto(previewedPhoto);
+
+        presenter.searchProductByImage(request);
         isPreviewed = false;
-        ActivityUtils.startActivity(this, InfoProductActivity.class);
     };
 
     private View.OnClickListener onCancelClicked = view -> {
@@ -133,7 +142,32 @@ public class CameraActivity extends AppCompatActivity {
             showCameraController(false);
 
             previewedPhoto = bytes;
-            isPreviewed = true;
         });
+    };
+
+    private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
+        @Override
+        public void onSearchSuccess(Search.Response response) {
+            InfoProductActivity.Param param = new InfoProductActivity.Param();
+            param.response = response;
+
+            ActivityUtils.startActivityWParam(CameraActivity.this, InfoProductActivity.class, InfoProductActivity.paramKey, param);
+            isPreviewed = true;
+        }
+
+        @Override
+        public void onError(String message) {
+            DialogUtils.dialog(CameraActivity.this, message, 256);
+        }
+
+        @Override
+        public void showLoading() {
+            dialog.show();
+        }
+
+        @Override
+        public void hideLoading() {
+            dialog.dismiss();
+        }
     };
 }

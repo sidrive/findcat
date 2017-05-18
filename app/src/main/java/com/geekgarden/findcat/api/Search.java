@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
 
 public class Search {
 
-    public class Request {
+    public static class Request {
         public String apiToken;
         public File image;
 
@@ -29,7 +29,7 @@ public class Search {
         }
     }
 
-    public class Response {
+    public static class Response {
         public Data data;
 
         public class Data {
