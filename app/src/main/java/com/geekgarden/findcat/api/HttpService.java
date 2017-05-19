@@ -2,22 +2,24 @@ package com.geekgarden.findcat.api;
 
 
 import com.geekgarden.findcat.BuildConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -31,7 +33,8 @@ public interface HttpService {
     @Multipart
     @POST("api/search")
     Observable<Search.Response> search(
-            @PartMap Map<String, RequestBody> body);
+            @Part MultipartBody.Part image,
+            @Part("api_token") RequestBody apiToken);
 
     @GET("api/product/{productId}")
     Observable<Product.Response> getProduct(
@@ -40,10 +43,14 @@ public interface HttpService {
 
 
     class Factory {
+        private static Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         public static HttpService create() {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.FindCatHost)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(client())
                     .build();
@@ -56,8 +63,15 @@ public interface HttpService {
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .addInterceptor(new HttpLoggingInterceptor()
                             .setLevel(HttpLoggingInterceptor.Level.BODY)
-                    )
-                    .build();
+                    ).addInterceptor(chain -> {
+                        Request original = chain.request();
+                        Request request = original.newBuilder()
+                                .header("Accept", "applicaion/json")
+                                .header("Content-Type", "multipart/form-data")
+                                .method(original.method(), original.body())
+                                .build();
+                        return chain.proceed(request);
+                    }).build();
         }
     }
 }

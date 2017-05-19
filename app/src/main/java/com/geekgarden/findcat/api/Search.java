@@ -23,8 +23,8 @@ public class Search {
 
         public Map<String, RequestBody> toMap() {
             Map<String, RequestBody> body = new ArrayMap<>();
-            body.put("api_token", RequestBody.create(MediaType.parse("multipart/form-data"), apiToken));
-            body.put("image", RequestBody.create(MediaType.parse("multipart/form-data"), image));
+            body.put("api_token", RequestBody.create(MediaType.parse("text/plain"), apiToken));
+            body.put("image", RequestBody.create(MediaType.parse("image/*"), image));
             return body;
         }
     }

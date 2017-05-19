@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class SingleProductActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((TextView) findViewById(R.id.text_title)).setText(param.product.name);
-        ((TextView) findViewById(R.id.text_description)).setText(param.product.description);
+        ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(param.product.description));
         ((ImageView) findViewById(R.id.img_featured_image)).setImageDrawable(getResources().getDrawable(param.product.sample));
     }
 }

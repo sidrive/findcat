@@ -33,16 +33,27 @@
                 android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="Cat A"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/img_featured_image"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/background_black_gradient" />
+
             <TextView
                 android:id="@+id/text_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/lorem_ipsum"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
@@ -50,7 +61,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="Video Terkait"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"

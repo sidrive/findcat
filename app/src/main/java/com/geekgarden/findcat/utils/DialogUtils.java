@@ -64,7 +64,6 @@ public class DialogUtils {
 
         dialog = new AlertDialog.Builder(ctx)
                 .setPositiveButton("OK", onClickListener)
-                .setNegativeButton("CANCEL", null)
                 .setMessage(message).show();
     }
 

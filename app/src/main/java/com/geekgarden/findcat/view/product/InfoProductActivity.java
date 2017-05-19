@@ -6,13 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.presenter.ProductPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
+import com.geekgarden.findcat.utils.ImageUtils;
 import com.geekgarden.findcat.widget.NonScrollableLinearLayoutManager;
 
 import java.util.ArrayList;
@@ -79,7 +82,8 @@ public class InfoProductActivity extends AppCompatActivity {
 
     private void renderPrimaryProduct(Search.Response.Result result) {
         ((TextView) findViewById(R.id.text_name)).setText(result.name);
-        ((TextView) findViewById(R.id.text_description)).setText(result.description);
+        ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(result.description));
+        ImageUtils.loadImage(this, param.response.data.query.largeUrl, ((ImageView) findViewById(R.id.img_featured_image)));
     }
 
     private void init() {

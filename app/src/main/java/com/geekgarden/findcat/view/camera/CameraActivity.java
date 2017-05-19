@@ -1,6 +1,7 @@
 package com.geekgarden.findcat.view.camera;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.hardware.Camera;
 import android.media.MediaActionSound;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.view.product.InfoProductActivity;
 import com.geekgarden.findcat.utils.ActivityUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
+
+import java.io.File;
 
 /**
  * Created by rioswarawan on 5/11/17.
@@ -46,19 +49,23 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (camera == null) {
+            DialogUtils.dialog(this, "Cannot connect to camera service", onFailCameraServiceClicked);
+            return;
+        }
         if (!isPreviewed) refreshCamera();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        camera.stopPreview();
+        if (camera != null) camera.stopPreview();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        camera.release();
+        if (camera != null) camera.release();
     }
 
     @Override
@@ -70,12 +77,17 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void init() {
-        camera = Camera.open();
+        try {
+            camera = Camera.open();
+        } catch (Exception ex) {
+            DialogUtils.dialog(this, "Cannot connect to camera service", onFailCameraServiceClicked);
+        }
         if (camera == null)
             return;
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Analyzing...");
+        dialog.setCancelable(false);
         presenter = new CameraPresenter(this);
         presenter.setSearchProductListener(onSearchProductListener);
         cameraPreview = new CameraPreview(this, camera);
@@ -117,12 +129,19 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onOkClicked = view -> {
+        File file = presenter.savePhoto(previewedPhoto);
+        if (file == null) return;
+
         Search.Request request = new Search.Request();
         request.apiToken = BuildConfig.FindCatStaticToken;
-        request.image = presenter.savePhoto(previewedPhoto);
+        request.image = file;
 
         presenter.searchProductByImage(request);
         isPreviewed = false;
+    };
+
+    private DialogInterface.OnClickListener onFailCameraServiceClicked = (dialogInterface, i) -> {
+        onBackPressed();
     };
 
     private View.OnClickListener onCancelClicked = view -> {
