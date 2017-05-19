@@ -129,7 +129,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onOkClicked = view -> {
-        File file = presenter.savePhoto(previewedPhoto);
+        File file = presenter.getCameraPhoto(previewedPhoto);
         if (file == null) return;
 
         Search.Request request = new Search.Request();
