@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +64,8 @@ public class InfoProductActivity extends AppCompatActivity {
     private void loadData() {
         products.clear();
         List<Search.Response.Result> sortedResults = presenter.sortProductByScore(param.response.data.results);
+        findViewById(R.id.text_data_empty).setVisibility(sortedResults.size() > 1 ? View.GONE : View.VISIBLE);
+
         for (int position = 0; position < sortedResults.size(); position++) {
             Search.Response.Result result = sortedResults.get(position);
             if (position == 0)
@@ -72,7 +75,6 @@ public class InfoProductActivity extends AppCompatActivity {
     }
 
     private void renderProductList(Search.Response.Result result) {
-
         // TODO: 5/18/17 video url is not available yet. Please modify 3rd parameter to be real video url
         Product product = new Product(result.name, result.description, R.drawable.sample_envi);
         products.add(product);
