@@ -31,6 +31,7 @@ public class Search {
 
     public static class Response {
         public Data data;
+        public String message;
 
         public class Data {
             public Query query;

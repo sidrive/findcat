@@ -167,10 +167,15 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
         @Override
         public void onSearchSuccess(Search.Response response) {
-            InfoProductActivity.Param param = new InfoProductActivity.Param();
-            param.response = response;
+            if (response.message != null) {
+                DialogUtils.dialog(CameraActivity.this, response.message, 256);
+                refreshCamera();
+            } else if (response.data != null) {
+                InfoProductActivity.Param param = new InfoProductActivity.Param();
+                param.response = response;
 
-            ActivityUtils.startActivityWParam(CameraActivity.this, InfoProductActivity.class, InfoProductActivity.paramKey, param);
+                ActivityUtils.startActivityWParam(CameraActivity.this, InfoProductActivity.class, InfoProductActivity.paramKey, param);
+            }
         }
 
         @Override
