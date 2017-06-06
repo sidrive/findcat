@@ -57,7 +57,7 @@ public class RelatedProductActivity extends AppCompatActivity {
     private void loadData() {
         products.clear();
         for (Search.Response.Result product : param.products.data.results)
-            products.add(new Product(product.name, product.description));
+            products.add(new Product(product.id, product.score, product.name, product.description));
         adapter.notifyDataSetChanged();
     }
 

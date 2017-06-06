@@ -17,7 +17,9 @@ import com.geekgarden.findcat.presenter.CameraPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
 import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
+import com.geekgarden.findcat.view.product.Product;
 import com.geekgarden.findcat.view.product.RelatedProductActivity;
+import com.geekgarden.findcat.view.product.SingleProductActivity;
 
 import java.io.File;
 
@@ -138,7 +140,16 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
         @Override
         public void onSingleResult(Search.Response.Result result) {
+            Product product = new Product();
+            product.id = result.id;
+            product.name = result.name;
+            product.description = result.description;
+            product.score = result.score;
 
+            SingleProductActivity.Param param = new SingleProductActivity.Param();
+            param.product = product;
+
+            ActivityUtils.startActivityWParam(CameraActivity.this, SingleProductActivity.class, SingleProductActivity.paramKey, param);
         }
 
         @Override
