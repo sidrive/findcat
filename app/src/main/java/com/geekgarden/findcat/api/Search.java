@@ -33,12 +33,12 @@ public class Search {
         public Data data;
         public String message;
 
-        public class Data {
+        public static class Data {
             public Query query;
             public List<Result> results;
         }
 
-        public class Query {
+        public static class Query {
             @SerializedName("small_url")
             public String smallUrl;
 
@@ -49,7 +49,7 @@ public class Search {
             public String largeUrl;
         }
 
-        public class Result {
+        public static class Result {
             public int id;
             public String name;
             public String description;

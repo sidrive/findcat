@@ -6,14 +6,11 @@ package com.geekgarden.findcat.view.product;
 
 public class Product {
 
-    public String videoUrl;
-    public int sample;
     public String name;
     public String description;
 
-    public Product(String name, String description, int sample) {
+    public Product(String name, String description) {
         this.name = name;
         this.description = description;
-        this.sample = sample;
     }
 }

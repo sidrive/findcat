@@ -33,7 +33,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.product.InfoProductActivity"
+            android:name=".view.product.RelatedProductActivity"
             android:screenOrientation="portrait" />
 
         <activity

@@ -59,6 +59,6 @@ public class SingleProductActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.text_title)).setText(param.product.name);
         ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(param.product.description));
-        ((ImageView) findViewById(R.id.img_featured_image)).setImageDrawable(getResources().getDrawable(param.product.sample));
+//        ((ImageView) findViewById(R.id.img_featured_image)).setImageDrawable(getResources().getDrawable(param.product.sample));
     }
 }

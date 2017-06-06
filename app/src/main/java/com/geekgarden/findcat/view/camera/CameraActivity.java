@@ -1,7 +1,6 @@
 package com.geekgarden.findcat.view.camera;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +17,7 @@ import com.geekgarden.findcat.presenter.CameraPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
 import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
-import com.geekgarden.findcat.view.product.InfoProductActivity;
+import com.geekgarden.findcat.view.product.RelatedProductActivity;
 
 import java.io.File;
 
@@ -115,10 +114,6 @@ public class CameraActivity extends AppCompatActivity {
         isPreviewed = false;
     };
 
-    private DialogInterface.OnClickListener onFailCameraServiceClicked = (dialogInterface, i) -> {
-        onBackPressed();
-    };
-
     private View.OnClickListener onCancelClicked = view -> {
         refreshCamera();
     };
@@ -142,22 +137,29 @@ public class CameraActivity extends AppCompatActivity {
 
     private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
         @Override
-        public void onSearchSuccess(Search.Response response) {
-            if (response.message != null) {
-                DialogUtils.dialog(CameraActivity.this, response.message, 256);
-                refreshCamera();
-            } else if (response.data != null) {
-                InfoProductActivity.Param param = new InfoProductActivity.Param();
-                param.response = response;
+        public void onSingleResult(Search.Response.Result result) {
 
-                ActivityUtils.startActivityWParam(CameraActivity.this, InfoProductActivity.class, InfoProductActivity.paramKey, param);
+        }
+
+        @Override
+        public void onMultipleResult(Search.Response results) {
+            if (results.message != null) {
+                DialogUtils.dialog(CameraActivity.this, results.message, 256);
+                refreshCamera();
+            } else if (results.data != null) {
+                RelatedProductActivity.Param param = new RelatedProductActivity.Param();
+                param.products = results;
+
+                ActivityUtils.startActivityWParam(CameraActivity.this, RelatedProductActivity.class, RelatedProductActivity.paramKey, param);
             }
+            refreshCamera();
         }
 
         @Override
         public void onError(String message) {
             DialogUtils.dialog(CameraActivity.this, message, 256);
             isPreviewed = false;
+            refreshCamera();
         }
 
         @Override

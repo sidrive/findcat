@@ -154,13 +154,20 @@ public class CameraPresenter {
 
                     @Override
                     public void onNext(Search.Response response) {
-                        searchProductListener.onSearchSuccess(response);
+                        if (response.data == null)
+                            searchProductListener.onError(response.message);
+                        else if (response.data.results.size() > 1)
+                            searchProductListener.onMultipleResult(response);
+                        else
+                            searchProductListener.onSingleResult(response.data.results.get(0));
                         searchProductListener.hideLoading();
                     }
                 }));
     }
 
     public interface SearchProductListener extends BaseListener {
-        void onSearchSuccess(Search.Response response);
+        void onSingleResult(Search.Response.Result result);
+
+        void onMultipleResult(Search.Response results);
     }
 }
