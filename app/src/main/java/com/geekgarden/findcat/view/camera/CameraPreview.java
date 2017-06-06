@@ -1,94 +1,173 @@
 package com.geekgarden.findcat.view.camera;
 
-import android.app.Activity;
-import android.content.Context;
+import android.graphics.Rect;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import com.geekgarden.findcat.utils.HardwareUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by rioswarawan on 5/11/17.
+ * Created by rioswarawan on 6/6/17.
  */
 
-public class CameraPreview extends SurfaceView {
+public class CameraPreview implements SurfaceHolder.Callback {
 
-    private SurfaceHolder surfaceHolder;
-    private Camera camera;
+    public Camera mCamera = null;
+    public Camera.Parameters params;
+    public SurfaceHolder sHolder;
 
-    public CameraPreview(Context context, Camera camera) {
-        super(context);
-        this.camera = camera;
-        this.camera.setDisplayOrientation(90);
-        this.surfaceHolder = getHolder();
-        this.surfaceHolder.addCallback(onSurfaceHolderCallback);
-        this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    public List<Camera.Size> supportedSizes;
 
-        initCameraParameters();
+    public int isCamOpen = 0;
+    public boolean isSizeSupported = false;
+    private int previewWidth, previewHeight;
+
+    private final static String TAG = "CameraPreview";
+
+    public CameraPreview(int width, int height) {
+        Log.i("campreview", "Width = " + String.valueOf(width));
+        Log.i("campreview", "Height = " + String.valueOf(height));
+        previewWidth = width;
+        previewHeight = height;
     }
 
-    private void initCameraParameters() {
-        if (!HardwareUtils.checkCameraHasAutoFocusMode(camera))
-            return;
+    private int openCamera() {
+        if (isCamOpen == 1) {
+            releaseCamera();
+        }
 
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-        camera.setParameters(parameters);
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        mCamera.setDisplayOrientation(90);
+
+        if (mCamera == null) {
+            return -1;
+        }
+
+        params = mCamera.getParameters();
+        params.setPreviewSize(previewWidth, previewHeight);
+
+        try {
+            mCamera.setParameters(params);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        mCamera.startPreview();
+        try {
+            mCamera.setPreviewDisplay(sHolder);
+        } catch (IOException e) {
+            mCamera.release();
+            mCamera = null;
+            return -1;
+        }
+        isCamOpen = 1;
+        return isCamOpen;
     }
 
-    public void turnOnFlash() {
-        if (!HardwareUtils.checkCameraHasFlashMode(camera))
-            return;
-
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-        camera.setParameters(parameters);
+    public int isCamOpen() {
+        return isCamOpen;
     }
 
-    public void turnOffFlash() {
-        if (!HardwareUtils.checkCameraHasFlashMode(camera))
-            return;
-
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        camera.setParameters(parameters);
+    public void releaseCamera() {
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            mCamera.release();
+            mCamera = null;
+        }
+        isCamOpen = 0;
     }
 
     public void refreshCamera() {
-        if (this.surfaceHolder == null)
+        if (sHolder == null)
             return;
 
         try {
-            camera.stopPreview();
-            camera.setPreviewDisplay(this.surfaceHolder);
-            camera.startPreview();
+            mCamera.stopPreview();
+            mCamera.setPreviewDisplay(sHolder);
+            mCamera.startPreview();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private SurfaceHolder.Callback onSurfaceHolderCallback = new SurfaceHolder.Callback() {
+    public void turnOnFlash() {
+        if (!HardwareUtils.checkCameraHasFlashMode(mCamera))
+            return;
+
+        Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+        mCamera.setParameters(parameters);
+    }
+
+    public void turnOffFlash() {
+        if (!HardwareUtils.checkCameraHasFlashMode(mCamera))
+            return;
+
+        Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        mCamera.setParameters(parameters);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        sHolder = holder;
+
+        isCamOpen = openCamera();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                               int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        releaseCamera();
+
+    }
+
+    /**
+     * Called from PreviewSurfaceView to set touch focus.
+     *
+     * @param - Rect - new area for auto focus
+     */
+    public void doTouchFocus(final Rect tfocusRect) {
+        Log.i(TAG, "TouchFocus");
+        try {
+            final List<Camera.Area> focusList = new ArrayList<Camera.Area>();
+            Camera.Area focusArea = new Camera.Area(tfocusRect, 1000);
+            focusList.add(focusArea);
+
+            Camera.Parameters para = mCamera.getParameters();
+            para.setFocusAreas(focusList);
+            para.setMeteringAreas(focusList);
+            mCamera.setParameters(para);
+
+            mCamera.autoFocus(myAutoFocusCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "Unable to autofocus");
+        }
+
+    }
+
+    /**
+     * AutoFocus callback
+     */
+    Camera.AutoFocusCallback myAutoFocusCallback = new Camera.AutoFocusCallback() {
+
         @Override
-        public void surfaceCreated(SurfaceHolder surfaceHolder) {
-            try {
-                camera.setPreviewDisplay(surfaceHolder);
-                camera.startPreview();
-            } catch (IOException e) {
-                e.printStackTrace();
+        public void onAutoFocus(boolean arg0, Camera arg1) {
+            if (arg0) {
+                mCamera.cancelAutoFocus();
             }
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-            refreshCamera();
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
         }
     };
 }

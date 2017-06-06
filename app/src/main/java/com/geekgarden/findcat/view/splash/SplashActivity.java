@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.presenter.PermissionPresenter;

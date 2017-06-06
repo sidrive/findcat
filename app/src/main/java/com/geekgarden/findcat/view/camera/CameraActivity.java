@@ -2,13 +2,12 @@ package com.geekgarden.findcat.view.camera;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.hardware.Camera;
 import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.SurfaceHolder;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,22 +15,24 @@ import com.geekgarden.findcat.BuildConfig;
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.presenter.CameraPresenter;
-import com.geekgarden.findcat.utils.DialogUtils;
-import com.geekgarden.findcat.view.product.InfoProductActivity;
 import com.geekgarden.findcat.utils.ActivityUtils;
+import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
+import com.geekgarden.findcat.view.product.InfoProductActivity;
 
 import java.io.File;
 
 /**
- * Created by rioswarawan on 5/11/17.
+ * Created by rioswarawan on 6/6/17.
  */
 
 public class CameraActivity extends AppCompatActivity {
 
-    private Camera camera;
-    private CameraPreview cameraPreview;
+    private int previewWidth = 720;
+    private int previewHeight = 1280;
+
     private CameraPresenter presenter;
+    private CameraPreview cameraPreview;
 
     private boolean isPreviewed;
     private boolean isFlashOn;
@@ -47,28 +48,6 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (camera == null) {
-            DialogUtils.dialog(this, "Cannot connect to camera service", onFailCameraServiceClicked);
-            return;
-        }
-        if (!isPreviewed) refreshCamera();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (camera != null) camera.stopPreview();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (camera != null) camera.release();
-    }
-
-    @Override
     public void onBackPressed() {
         if (this.isPreviewed) {
             refreshCamera();
@@ -77,22 +56,18 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void init() {
-        try {
-            camera = Camera.open();
-        } catch (Exception ex) {
-            DialogUtils.dialog(this, "Cannot connect to camera service", onFailCameraServiceClicked);
-        }
-        if (camera == null)
-            return;
-
         dialog = new ProgressDialog(this);
         dialog.setMessage("Analyzing...");
         dialog.setCancelable(false);
         presenter = new CameraPresenter(this);
         presenter.setSearchProductListener(onSearchProductListener);
-        cameraPreview = new CameraPreview(this, camera);
-        ((FrameLayout) findViewById(R.id.surface_camera)).addView(cameraPreview);
 
+        SurfaceHolder camHolder = ((PreviewSurfaceView) findViewById(R.id.preview_surface)).getHolder();
+        cameraPreview = new CameraPreview(previewWidth, previewHeight);
+        camHolder.addCallback(cameraPreview);
+        camHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        ((PreviewSurfaceView) findViewById(R.id.preview_surface)).setListener(cameraPreview);
         findViewById(R.id.button_take_picture).setOnClickListener(onCaptureClicked);
         findViewById(R.id.button_flash).setOnClickListener(onFlashClicked);
         findViewById(R.id.button_history).setOnClickListener(null);
@@ -156,12 +131,13 @@ public class CameraActivity extends AppCompatActivity {
     };
 
     private View.OnClickListener onCaptureClicked = view -> {
-        if (camera != null) camera.takePicture(null, null, (bytes, camera1) -> {
-            shutterClick();
-            showCameraController(false);
+        if (cameraPreview.mCamera != null)
+            cameraPreview.mCamera.takePicture(null, null, (bytes, camera1) -> {
+                shutterClick();
+                showCameraController(false);
 
-            previewedPhoto = bytes;
-        });
+                previewedPhoto = bytes;
+            });
     };
 
     private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
