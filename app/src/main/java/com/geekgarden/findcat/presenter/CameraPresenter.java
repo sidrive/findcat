@@ -5,25 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Environment;
 
-import com.geekgarden.findcat.BuildConfig;
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.HttpService;
 import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.base.BaseListener;
-import com.geekgarden.findcat.utils.DateUtils;
+import com.geekgarden.findcat.database.entity.ProductHistory;
 import com.geekgarden.findcat.utils.StorageUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,9 +34,11 @@ public class CameraPresenter {
     private Context context;
     private CompositeSubscription subscription;
     private SearchProductListener searchProductListener;
+    private ProductHistory.Controller productHistoryController;
 
     public CameraPresenter(Context context) {
         this.context = context;
+        this.productHistoryController = new ProductHistory.Controller(context);
     }
 
     public void setSearchProductListener(SearchProductListener searchProductListener) {
@@ -156,18 +150,15 @@ public class CameraPresenter {
                     public void onNext(Search.Response response) {
                         if (response.data == null)
                             searchProductListener.onError(response.message);
-                        else if (response.data.results.size() > 1)
-                            searchProductListener.onMultipleResult(response);
                         else
-                            searchProductListener.onSingleResult(response.data.results.get(0));
+                            searchProductListener.onResult(response);
                         searchProductListener.hideLoading();
                     }
                 }));
     }
 
-    public interface SearchProductListener extends BaseListener {
-        void onSingleResult(Search.Response.Result result);
 
-        void onMultipleResult(Search.Response results);
+    public interface SearchProductListener extends BaseListener {
+        void onResult(Search.Response result);
     }
 }

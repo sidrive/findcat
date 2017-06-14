@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ea1f63</color>
+    <color name="colorPrimaryDark">#a91647</color>
+    <color name="colorAccent">@color/colorPrimary</color>
 
     <color name="cameraBackground">#33000000</color>
+    <color name="darkBackground">#363636</color>
     <color name="pageBackground">#f1f1f1</color>
+    <color name="yellow">#f0bd0c</color>
 </resources>

@@ -10,14 +10,6 @@ public class Product {
     public int score;
     public String name;
     public String description;
+    public String image;
 
-    public Product() {
-    }
-
-    public Product(int id, int score, String name, String description) {
-        this.id = id;
-        this.score = score;
-        this.name = name;
-        this.description = description;
-    }
 }

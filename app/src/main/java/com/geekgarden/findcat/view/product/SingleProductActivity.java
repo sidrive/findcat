@@ -1,21 +1,21 @@
 package com.geekgarden.findcat.view.product;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.utils.ActivityUtils;
-import com.geekgarden.findcat.widget.NonScrollableLinearLayoutManager;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.geekgarden.findcat.utils.ImageUtils;
 
 /**
  * Created by rioswarawan on 5/14/17.
@@ -59,6 +59,13 @@ public class SingleProductActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.text_title)).setText(param.product.name);
         ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(param.product.description));
-//        ((ImageView) findViewById(R.id.img_featured_image)).setImageDrawable(getResources().getDrawable(param.product.sample));
+        ImageUtils.loadImage(this, param.product.image, (ImageView) findViewById(R.id.img_featured_image));
+
+//      not implemented yet
+//        ((WebView) findViewById(R.id.video_player)).loadUrl("http://videos.sproutvideo.com/embed/a49ad8bc111ae7c32c/8e8f60330150a5c2");
+//        ((WebView) findViewById(R.id.video_player)).setWebChromeClient(new WebChromeClient());
+//        ((WebView) findViewById(R.id.video_player)).getSettings().setJavaScriptEnabled(true);
+//        ((WebView) findViewById(R.id.video_player)).getSettings().setPluginState(WebSettings.PluginState.ON);
+
     }
 }

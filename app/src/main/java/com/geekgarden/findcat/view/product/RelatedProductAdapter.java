@@ -11,20 +11,19 @@ import android.widget.TextView;
 import com.geekgarden.findcat.R;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by rioswarawan on 4/19/17.
  */
 
-public class InfoProductAdapter extends RecyclerView.Adapter<InfoProductAdapter.InfoProductViewHolder> {
+public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAdapter.InfoProductViewHolder> {
 
     private Context context;
     private List<Product> products;
     private LayoutInflater inflater;
     private OnAdapterListener adapterListener;
 
-    public InfoProductAdapter(Context context, List<Product> products, OnAdapterListener adapterListener) {
+    public RelatedProductAdapter(Context context, List<Product> products, OnAdapterListener adapterListener) {
         this.context = context;
         this.products = products;
         this.inflater = LayoutInflater.from(context);

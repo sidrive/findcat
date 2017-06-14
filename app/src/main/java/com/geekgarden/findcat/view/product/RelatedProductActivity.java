@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.Search;
+import com.geekgarden.findcat.database.entity.ProductHistory;
 import com.geekgarden.findcat.utils.ActivityUtils;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class RelatedProductActivity extends AppCompatActivity {
     }
 
     private List<Product> products;
-    private InfoProductAdapter adapter;
+    private RelatedProductAdapter adapter;
     private Param param;
 
     @Override
@@ -56,8 +57,16 @@ public class RelatedProductActivity extends AppCompatActivity {
 
     private void loadData() {
         products.clear();
-        for (Search.Response.Result product : param.products.data.results)
-            products.add(new Product(product.id, product.score, product.name, product.description));
+        for (Search.Response.Result product : param.products.data.results) {
+            Product prod = new Product();
+            prod.id = product.id;
+            prod.name = product.name;
+            prod.description = product.description;
+            prod.score = product.score;
+            prod.image = param.products.data.query.mediumUrl;
+
+            products.add(prod);
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -67,18 +76,24 @@ public class RelatedProductActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         products = new ArrayList<>();
-        adapter = new InfoProductAdapter(this, products, onAdapterListener);
+        adapter = new RelatedProductAdapter(this, products, onAdapterListener);
         ((RecyclerView) findViewById(R.id.recycler_products)).setLayoutManager(new LinearLayoutManager(this));
         ((RecyclerView) findViewById(R.id.recycler_products)).setHasFixedSize(true);
         ((RecyclerView) findViewById(R.id.recycler_products)).setAdapter(adapter);
     }
 
-    private InfoProductAdapter.OnAdapterListener onAdapterListener = position -> {
+    private void saveHistory(Product product) {
+        ProductHistory.Controller productHistoryController = new ProductHistory.Controller(this);
+        productHistoryController.insert(product);
+    }
+
+    private RelatedProductAdapter.OnAdapterListener onAdapterListener = position -> {
         Product product = products.get(position);
 
         SingleProductActivity.Param param = new SingleProductActivity.Param();
         param.product = product;
 
+        saveHistory(product);
         ActivityUtils.startActivityWParam(this, SingleProductActivity.class, SingleProductActivity.paramKey, param);
     };
 }

@@ -13,10 +13,12 @@ import android.widget.TextView;
 import com.geekgarden.findcat.BuildConfig;
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.Search;
+import com.geekgarden.findcat.database.entity.ProductHistory;
 import com.geekgarden.findcat.presenter.CameraPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
 import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
+import com.geekgarden.findcat.view.history.HistoryActivity;
 import com.geekgarden.findcat.view.product.Product;
 import com.geekgarden.findcat.view.product.RelatedProductActivity;
 import com.geekgarden.findcat.view.product.SingleProductActivity;
@@ -71,7 +73,7 @@ public class CameraActivity extends AppCompatActivity {
         ((PreviewSurfaceView) findViewById(R.id.preview_surface)).setListener(cameraPreview);
         findViewById(R.id.button_take_picture).setOnClickListener(onCaptureClicked);
         findViewById(R.id.button_flash).setOnClickListener(onFlashClicked);
-        findViewById(R.id.button_history).setOnClickListener(null);
+        findViewById(R.id.button_history).setOnClickListener(onHistoryClicked);
         findViewById(R.id.button_ok).setOnClickListener(onOkClicked);
         findViewById(R.id.button_clear).setOnClickListener(onCancelClicked);
     }
@@ -103,6 +105,37 @@ public class CameraActivity extends AppCompatActivity {
         cameraPreview.refreshCamera();
         showCameraController(true);
     }
+
+    private void multipleResult(Search.Response response) {
+        RelatedProductActivity.Param param = new RelatedProductActivity.Param();
+        param.products = response;
+
+        ActivityUtils.startActivityWParam(CameraActivity.this, RelatedProductActivity.class, RelatedProductActivity.paramKey, param);
+    }
+
+    private void singleResult(Search.Response.Data data) {
+        Product product = new Product();
+        product.id = data.results.get(0).id;
+        product.name = data.results.get(0).name;
+        product.description = data.results.get(0).description;
+        product.score = data.results.get(0).score;
+        product.image = data.query.mediumUrl;
+
+        SingleProductActivity.Param param = new SingleProductActivity.Param();
+        param.product = product;
+
+        saveHistory(product);
+        ActivityUtils.startActivityWParam(CameraActivity.this, SingleProductActivity.class, SingleProductActivity.paramKey, param);
+    }
+
+    private void saveHistory(Product product) {
+        ProductHistory.Controller productHistoryController = new ProductHistory.Controller(this);
+        productHistoryController.insert(product);
+    }
+
+    private View.OnClickListener onHistoryClicked = view -> {
+        ActivityUtils.startActivity(CameraActivity.this, HistoryActivity.class);
+    };
 
     private View.OnClickListener onOkClicked = view -> {
         File file = presenter.getCameraPhoto(previewedPhoto);
@@ -139,30 +172,11 @@ public class CameraActivity extends AppCompatActivity {
 
     private CameraPresenter.SearchProductListener onSearchProductListener = new CameraPresenter.SearchProductListener() {
         @Override
-        public void onSingleResult(Search.Response.Result result) {
-            Product product = new Product();
-            product.id = result.id;
-            product.name = result.name;
-            product.description = result.description;
-            product.score = result.score;
-
-            SingleProductActivity.Param param = new SingleProductActivity.Param();
-            param.product = product;
-
-            ActivityUtils.startActivityWParam(CameraActivity.this, SingleProductActivity.class, SingleProductActivity.paramKey, param);
-        }
-
-        @Override
-        public void onMultipleResult(Search.Response results) {
-            if (results.message != null) {
-                DialogUtils.dialog(CameraActivity.this, results.message, 256);
-                refreshCamera();
-            } else if (results.data != null) {
-                RelatedProductActivity.Param param = new RelatedProductActivity.Param();
-                param.products = results;
-
-                ActivityUtils.startActivityWParam(CameraActivity.this, RelatedProductActivity.class, RelatedProductActivity.paramKey, param);
-            }
+        public void onResult(Search.Response result) {
+            if (result.data.results.size() > 1)
+                multipleResult(result);
+            else
+                singleResult(result.data);
             refreshCamera();
         }
 

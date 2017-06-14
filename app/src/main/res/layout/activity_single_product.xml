@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/background_black_gradient" />
 
             <TextView
@@ -51,6 +52,11 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/black"
                 android:textSize="14dp" />
+
+            <WebView
+                android:id="@+id/video_player"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
