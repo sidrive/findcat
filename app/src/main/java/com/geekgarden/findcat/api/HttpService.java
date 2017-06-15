@@ -41,6 +41,11 @@ public interface HttpService {
             @Path("productId") String productId,
             @Query("api_token") String apiToken);
 
+    @GET("api/product/{productId}/videos")
+    Observable<Video.Response> getVideo(
+            @Path("productId") String productId,
+            @Query("api_token") String apiToken);
+
 
     class Factory {
         private static Gson gson = new GsonBuilder()

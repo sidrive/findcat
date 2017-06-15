@@ -32,6 +32,8 @@ public class ProductHistory {
     @DatabaseField
     public String image;
     @DatabaseField
+    public String createdAt;
+    @DatabaseField
     public int score;
 
     public static class Controller {
@@ -52,6 +54,7 @@ public class ProductHistory {
             entity.name = productHistory.name;
             entity.description = productHistory.description;
             entity.image = productHistory.image;
+            entity.createdAt = DateUtils.getDateTimeStr(new Date().getTime(), "dd MMMM yyyy hh:mm:ss");
 
             insertUpdateDatabase(entity);
         }

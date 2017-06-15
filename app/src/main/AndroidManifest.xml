@@ -44,6 +44,10 @@
         <activity
             android:name=".view.history.HistoryActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".view.video.VideoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

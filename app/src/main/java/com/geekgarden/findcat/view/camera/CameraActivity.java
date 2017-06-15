@@ -16,6 +16,7 @@ import com.geekgarden.findcat.api.Search;
 import com.geekgarden.findcat.database.entity.ProductHistory;
 import com.geekgarden.findcat.presenter.CameraPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
+import com.geekgarden.findcat.utils.DateUtils;
 import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
 import com.geekgarden.findcat.view.history.HistoryActivity;
@@ -24,6 +25,7 @@ import com.geekgarden.findcat.view.product.RelatedProductActivity;
 import com.geekgarden.findcat.view.product.SingleProductActivity;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * Created by rioswarawan on 6/6/17.

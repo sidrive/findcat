@@ -8,4 +8,5 @@
     <color name="darkBackground">#363636</color>
     <color name="pageBackground">#f1f1f1</color>
     <color name="yellow">#f0bd0c</color>
+    <color name="grayLight">#e1e1e1</color>
 </resources>

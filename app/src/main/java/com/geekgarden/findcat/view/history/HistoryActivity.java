@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.geekgarden.findcat.R;
 import com.geekgarden.findcat.api.Search;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    private List<Product> products;
+    private List<ProductHistory> products;
     private HistoryAdapter adapter;
     private ProductHistory.Controller productHistoryController;
 
@@ -53,20 +54,24 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void initData() {
         List<ProductHistory> histories = productHistoryController.getProductHistories();
-        for (ProductHistory data : histories) {
-            Product product = new Product();
-            product.id = data.productId;
-            product.name = data.name;
-            product.description = data.description;
-            product.score = data.score;
-            product.image = data.image;
-            products.add(product);
+        findViewById(R.id.empty_history).setVisibility(histories.size() == 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.recycler_history).setVisibility(histories.size() == 0 ? View.GONE : View.VISIBLE);
+
+        if (histories.size() > 0) {
+            products.clear();
+            products.addAll(histories);
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     private HistoryAdapter.OnAdapterListener onAdapterListener = position -> {
-        Product product = products.get(position);
+        ProductHistory productHistory = products.get(position);
+        Product product = new Product();
+        product.id = productHistory.productId;
+        product.name = productHistory.name;
+        product.description = productHistory.description;
+        product.score = productHistory.score;
+        product.image = productHistory.image;
 
         SingleProductActivity.Param param = new SingleProductActivity.Param();
         param.product = product;

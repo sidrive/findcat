@@ -1,21 +1,28 @@
 package com.geekgarden.findcat.view.product;
 
-import android.os.Build;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.geekgarden.findcat.R;
+import com.geekgarden.findcat.api.Video;
+import com.geekgarden.findcat.presenter.ProductPresenter;
 import com.geekgarden.findcat.utils.ActivityUtils;
+import com.geekgarden.findcat.utils.DialogUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
+import com.geekgarden.findcat.view.video.VideoActivity;
+import com.geekgarden.findcat.widget.NonScrollableLinearLayoutManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rioswarawan on 5/14/17.
@@ -30,6 +37,10 @@ public class SingleProductActivity extends AppCompatActivity {
     }
 
     private Param param;
+    private List<Video.Data> videos;
+    private VideoAdapter adapter;
+    private ProductPresenter productPresenter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class SingleProductActivity extends AppCompatActivity {
         param = ActivityUtils.getParam(this, paramKey, Param.class);
 
         init();
+        productPresenter.getVideos(param.product.id);
     }
 
     @Override
@@ -57,15 +69,56 @@ public class SingleProductActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Fetching Data");
+        dialog.setCancelable(false);
+        videos = new ArrayList<>();
+        adapter = new VideoAdapter(this, videos, onAdapterListener);
+        productPresenter = new ProductPresenter(this);
+        productPresenter.setOnSelectionProduct(onSelectionProduct);
         ((TextView) findViewById(R.id.text_title)).setText(param.product.name);
         ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(param.product.description));
+        ((RecyclerView) findViewById(R.id.recycler_video)).setLayoutManager(new NonScrollableLinearLayoutManager(this));
+        ((RecyclerView) findViewById(R.id.recycler_video)).setHasFixedSize(true);
+        ((RecyclerView) findViewById(R.id.recycler_video)).setAdapter(adapter);
         ImageUtils.loadImage(this, param.product.image, (ImageView) findViewById(R.id.img_featured_image));
-
-//      not implemented yet
-//        ((WebView) findViewById(R.id.video_player)).loadUrl("http://videos.sproutvideo.com/embed/a49ad8bc111ae7c32c/8e8f60330150a5c2");
-//        ((WebView) findViewById(R.id.video_player)).setWebChromeClient(new WebChromeClient());
-//        ((WebView) findViewById(R.id.video_player)).getSettings().setJavaScriptEnabled(true);
-//        ((WebView) findViewById(R.id.video_player)).getSettings().setPluginState(WebSettings.PluginState.ON);
-
     }
+
+    private VideoAdapter.OnAdapterListener onAdapterListener = position -> {
+        Video.Data video = videos.get(position);
+
+        VideoActivity.Param videoParam = new VideoActivity.Param();
+        videoParam.video = video;
+
+        ActivityUtils.startActivityWParam(SingleProductActivity.this, VideoActivity.class, VideoActivity.paramKey, videoParam);
+    };
+
+    private ProductPresenter.OnSelectionProduct onSelectionProduct = new ProductPresenter.OnSelectionProduct() {
+        @Override
+        public void onVideoFetched(List<Video.Data> data) {
+            findViewById(R.id.empty_video).setVisibility(data.size() == 0 ? View.VISIBLE : View.GONE);
+            findViewById(R.id.recycler_video).setVisibility(data.size() == 0 ? View.GONE : View.VISIBLE);
+
+            if (data.size() > 0) {
+                videos.clear();
+                videos.addAll(data);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onError(String message) {
+            DialogUtils.dialog(SingleProductActivity.this, message, 256);
+        }
+
+        @Override
+        public void showLoading() {
+            dialog.show();
+        }
+
+        @Override
+        public void hideLoading() {
+            dialog.dismiss();
+        }
+    };
 }

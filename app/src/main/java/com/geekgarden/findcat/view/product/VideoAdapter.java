@@ -1,8 +1,7 @@
-package com.geekgarden.findcat.view.history;
+package com.geekgarden.findcat.view.product;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,45 +9,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.geekgarden.findcat.R;
-import com.geekgarden.findcat.database.entity.ProductHistory;
+import com.geekgarden.findcat.api.Video;
 import com.geekgarden.findcat.utils.DateUtils;
 import com.geekgarden.findcat.utils.ImageUtils;
-import com.geekgarden.findcat.view.product.Product;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by rioswarawan on 4/19/17.
  */
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.InfoProductViewHolder> {
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.InfoProductViewHolder> {
 
     private Context context;
-    private List<ProductHistory> products;
+    private List<Video.Data> videos;
     private LayoutInflater inflater;
     private OnAdapterListener adapterListener;
 
-    public HistoryAdapter(Context context, List<ProductHistory> products, OnAdapterListener adapterListener) {
+    public VideoAdapter(Context context, List<Video.Data> videos, OnAdapterListener adapterListener) {
         this.context = context;
-        this.products = products;
+        this.videos = videos;
         this.inflater = LayoutInflater.from(context);
         this.adapterListener = adapterListener;
     }
 
     @Override
     public InfoProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_history, parent, false);
+        View view = inflater.inflate(R.layout.item_video, parent, false);
         return new InfoProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(InfoProductViewHolder holder, int position) {
-        ProductHistory product = products.get(position);
-        ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
-        ((TextView) holder.itemView.findViewById(R.id.text_date)).setText(product.createdAt);
+        Video.Data video = videos.get(position);
+        ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(video.title);
+        ((TextView) holder.itemView.findViewById(R.id.text_date)).setText(DateUtils.getDateTimeStr(video.uploadedAt, "yyyy-MM-dd hh:mm:ss", "dd MMMM yyyy hh:mm:ss"));
 
-        ImageUtils.loadImage(context, product.image, (ImageView) holder.itemView.findViewById(R.id.img_featured_image));
+        ImageUtils.loadImage(context, video.thumbnails.get(0), (ImageView) holder.itemView.findViewById(R.id.img_video));
 
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);
@@ -57,7 +54,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.InfoProd
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return videos.size();
     }
 
     public class InfoProductViewHolder extends RecyclerView.ViewHolder {
