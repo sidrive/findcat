@@ -24,7 +24,10 @@ import com.geekgarden.findcat.view.product.Product;
 import com.geekgarden.findcat.view.product.RelatedProductActivity;
 import com.geekgarden.findcat.view.product.SingleProductActivity;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import java.io.File;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Date;
 
 /**
@@ -33,6 +36,7 @@ import java.util.Date;
 
 public class CameraActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mAnaliticts;
     private int previewWidth = 720;
     private int previewHeight = 1280;
 
@@ -48,7 +52,14 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        mAnaliticts = FirebaseAnalytics.getInstance(this);
 
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                FirebaseCrash.report(e);
+            }
+        });
         init();
     }
 
