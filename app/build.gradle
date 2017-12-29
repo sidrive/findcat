@@ -12,7 +12,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "MediaDirectory", '"FindCatMedia"'
-        buildConfigField "String", "FindCatHost", '"http://findcat-web.dev.komuri.co.id/"'
+        buildConfigField "String", "FindCatHost", '"http://app.findcat.id"'
         buildConfigField "String", "FindCatStaticToken", '"HrCxeM6GbM8Sr4G7eheKx3wSMM9bVOXZdqqeZA1oTTGHEMB3q90pPfXmE4EVEejf"'
 
     }
