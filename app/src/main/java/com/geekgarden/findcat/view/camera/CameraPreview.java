@@ -49,7 +49,7 @@ public class CameraPreview implements SurfaceHolder.Callback {
         }
 
         params = mCamera.getParameters();
-        params.setPreviewSize(previewWidth, previewHeight);
+//        params.setPreviewSize(previewWidth, previewHeight);
 
         try {
             mCamera.setParameters(params);
