@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ketukang.findcat.view.camera.PreviewSurfaceView
+        <id.findcat.app.view.camera.PreviewSurfaceView
             android:id="@+id/preview_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.ketukang.findcat.view.camera.DrawingView
+        <id.findcat.app.view.camera.DrawingView
             android:id="@+id/drawing_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
