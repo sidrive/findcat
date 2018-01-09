@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.geekgarden.findcat">
+    package="com.ketukang.findcat">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".view.splash.SplashActivity"
+            android:name="com.ketukang.findcat.view.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,23 +30,23 @@
         </activity>
 
         <activity
-            android:name=".view.camera.CameraActivity"
+            android:name="com.ketukang.findcat.view.camera.CameraActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.product.RelatedProductActivity"
+            android:name="com.ketukang.findcat.view.product.RelatedProductActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.product.SingleProductActivity"
+            android:name="com.ketukang.findcat.view.product.SingleProductActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.history.HistoryActivity"
+            android:name="com.ketukang.findcat.view.history.HistoryActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.video.VideoActivity"
+            android:name="com.ketukang.findcat.view.video.VideoActivity"
             android:screenOrientation="portrait" />
     </application>
 

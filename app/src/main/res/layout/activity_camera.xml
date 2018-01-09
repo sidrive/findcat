@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.geekgarden.findcat.view.camera.PreviewSurfaceView
+        <com.ketukang.findcat.view.camera.PreviewSurfaceView
             android:id="@+id/preview_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.geekgarden.findcat.view.camera.DrawingView
+        <com.ketukang.findcat.view.camera.DrawingView
             android:id="@+id/drawing_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
