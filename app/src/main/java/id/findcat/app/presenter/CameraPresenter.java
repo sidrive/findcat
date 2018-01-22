@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.util.Log;
 
+import android.util.Log;
 import id.findcat.app.R;
 import id.findcat.app.api.HttpService;
 import id.findcat.app.api.Search;
@@ -126,13 +127,10 @@ public class CameraPresenter {
     public void searchProductByImage(Search.Request request) {
         if (searchProductListener == null)
             throw new RuntimeException(context.getString(R.string.listener_not_found));
-
         searchProductListener.showLoading();
-
         RequestBody image = RequestBody.create(MediaType.parse("image/*"), request.image);
         MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", request.image.getName(), image);
         RequestBody apiToken = RequestBody.create(MediaType.parse("text/plain"), request.apiToken);
-
         subscription.add(HttpService.Factory.create().search(imageBody, apiToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -145,6 +143,7 @@ public class CameraPresenter {
                     public void onError(Throwable e) {
                         searchProductListener.onError(e.getLocalizedMessage());
                         searchProductListener.hideLoading();
+                        Log.e("onError", "CameraPresenter" + e.getMessage());
                     }
 
                     @Override

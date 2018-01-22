@@ -42,6 +42,7 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
         ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
         ((TextView) holder.itemView.findViewById(R.id.text_description)).setText(Html.fromHtml(product.description));
 
+
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);
         });

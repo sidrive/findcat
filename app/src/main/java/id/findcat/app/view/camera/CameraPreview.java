@@ -30,8 +30,6 @@ public class CameraPreview implements SurfaceHolder.Callback {
     private final static String TAG = "CameraPreview";
 
     public CameraPreview(int width, int height) {
-        Log.i("campreview", "Width = " + String.valueOf(width));
-        Log.i("campreview", "Height = " + String.valueOf(height));
         previewWidth = width;
         previewHeight = height;
     }

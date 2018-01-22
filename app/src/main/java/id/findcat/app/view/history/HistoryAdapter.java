@@ -44,7 +44,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.InfoProd
         ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
         ((TextView) holder.itemView.findViewById(R.id.text_date)).setText(product.createdAt);
 
-        ImageUtils.loadImage(context, product.image, (ImageView) holder.itemView.findViewById(R.id.img_featured_image));
+        ImageUtils.loadImageRotate(context, product.image, (ImageView) holder.itemView.findViewById(R.id.img_featured_image));
 
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);

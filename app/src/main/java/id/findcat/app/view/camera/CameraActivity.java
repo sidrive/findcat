@@ -5,6 +5,7 @@ import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.ImageView;
@@ -54,13 +55,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         mAnaliticts = FirebaseAnalytics.getInstance(this);
-
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                FirebaseCrash.report(e);
-            }
-        });
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> FirebaseCrash.report(e));
         init();
     }
 
@@ -121,6 +116,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void multipleResult(Response response) {
+
         Param param = new Param();
         param.products = response;
 
@@ -128,6 +124,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void singleResult(Data data) {
+
         Product product = new Product();
         product.id = data.results.get(0).id;
         product.name = data.results.get(0).name;

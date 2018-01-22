@@ -190,6 +190,19 @@ public class ImageUtils {
                 .into(imageView);
         Log.d("Image", url);
     }
+    /**
+     * Load image into ImageView, scale down as necessary . rotate image to potrate
+     */
+    public static final void loadImageRotate(Context ctx, String url, ImageView imageView) {
+        if (TextUtils.isEmpty(url))
+            return;
+        Glide.with(ctx).load(url)
+            .skipMemoryCache(true)
+            .fitCenter()
+            .transform(new RotateTransformation(ctx,90f))
+            .into(imageView);
+        Log.d("Image", url);
+    }
 
     /**
      * Load image into ImageView with default place holder, scale down as necessary .

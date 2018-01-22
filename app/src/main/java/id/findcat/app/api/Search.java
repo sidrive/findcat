@@ -36,6 +36,8 @@ public class Search {
         public static class Data {
             public Query query;
             public List<Result> results;
+
+
         }
 
         public static class Query {
@@ -47,6 +49,8 @@ public class Search {
 
             @SerializedName("large_url")
             public String largeUrl;
+
+
         }
 
         public static class Result {
@@ -54,6 +58,10 @@ public class Search {
             public String name;
             public String description;
             public int score;
+
+
         }
+
+
     }
 }
