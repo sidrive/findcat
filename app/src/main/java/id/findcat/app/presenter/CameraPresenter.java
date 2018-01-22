@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.util.Log;
 
 import id.findcat.app.R;
 import id.findcat.app.api.HttpService;
@@ -148,6 +149,7 @@ public class CameraPresenter {
 
                     @Override
                     public void onNext(Search.Response response) {
+                        Log.e("CameraPresenter", "onNext: " + response.toString());
                         if (response.data == null)
                             searchProductListener.onError(response.message);
                         else

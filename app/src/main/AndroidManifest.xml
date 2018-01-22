@@ -38,8 +38,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:label="Detail Product"
             android:name="id.findcat.app.view.product.SingleProductActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name="id.findcat.app.view.history.HistoryActivity"

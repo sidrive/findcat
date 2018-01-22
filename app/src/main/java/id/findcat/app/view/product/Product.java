@@ -12,4 +12,14 @@ public class Product {
     public String description;
     public String image;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", score=" + score +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

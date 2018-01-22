@@ -11,6 +11,7 @@ import android.view.View;
 import id.findcat.app.R;
 import id.findcat.app.database.entity.ProductHistory;
 import id.findcat.app.utils.ActivityUtils;
+import id.findcat.app.utils.Log;
 import id.findcat.app.view.product.Product;
 import id.findcat.app.view.product.SingleProductActivity;
 
@@ -52,6 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
         List<ProductHistory> histories = productHistoryController.getProductHistories();
         findViewById(R.id.empty_history).setVisibility(histories.size() == 0 ? View.VISIBLE : View.GONE);
         findViewById(R.id.recycler_history).setVisibility(histories.size() == 0 ? View.GONE : View.VISIBLE);
+        android.util.Log.e("HistoryActivity", "initData: " + histories.toString());
 
         if (histories.size() > 0) {
             products.clear();
@@ -63,6 +65,7 @@ public class HistoryActivity extends AppCompatActivity {
     private HistoryAdapter.OnAdapterListener onAdapterListener = position -> {
         ProductHistory productHistory = products.get(position);
         Product product = new Product();
+        Log.e("History","Product"+product.toString());
         product.id = productHistory.productId;
         product.name = productHistory.name;
         product.description = productHistory.description;

@@ -17,6 +17,7 @@ import id.findcat.app.presenter.ProductPresenter;
 import id.findcat.app.utils.ActivityUtils;
 import id.findcat.app.utils.DialogUtils;
 import id.findcat.app.utils.ImageUtils;
+import id.findcat.app.utils.Log;
 import id.findcat.app.view.video.VideoActivity;
 import id.findcat.app.widget.NonScrollableLinearLayoutManager;
 
@@ -82,6 +83,7 @@ public class SingleProductActivity extends AppCompatActivity {
         ((RecyclerView) findViewById(R.id.recycler_video)).setHasFixedSize(true);
         ((RecyclerView) findViewById(R.id.recycler_video)).setAdapter(adapter);
         ImageUtils.loadImage(this, param.product.image, (ImageView) findViewById(R.id.img_featured_image));
+        Log.e("Image","ImageView "+param.product.image);
     }
 
     private VideoAdapter.OnAdapterListener onAdapterListener = position -> {

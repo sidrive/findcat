@@ -36,6 +36,19 @@ public class ProductHistory {
     @DatabaseField
     public int score;
 
+    @Override
+    public String toString() {
+        return "ProductHistory{" +
+                "id='" + id + '\'' +
+                ", productId=" + productId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", score=" + score +
+                '}';
+    }
+
     public static class Controller {
         private Context context;
         private DatabaseConfig database;
