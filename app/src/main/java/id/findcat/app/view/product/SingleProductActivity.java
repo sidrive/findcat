@@ -12,6 +12,8 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,13 +49,16 @@ public class SingleProductActivity extends AppCompatActivity {
     private VideoAdapter adapter;
     private ProductPresenter productPresenter;
     private ProgressDialog dialog;
-
+    private WebView wvDesc;
+    private WebSettings webSettings;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_product);
         param = ActivityUtils.getParam(this, paramKey, Param.class);
-
+        wvDesc = findViewById(R.id.web_des);
+        webSettings = wvDesc.getSettings();
+        webSettings.setJavaScriptEnabled(true);
         init();
         productPresenter.getVideos(param.product.id);
     }
@@ -70,9 +75,7 @@ public class SingleProductActivity extends AppCompatActivity {
         finish();
     }
 
-    public String replaceLI(String s){
-        return s.replaceAll("<li>","<li>\t");//don't remove thi escape "\t"
-    }
+
     private void init() {
         setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
         if (getSupportActionBar() != null)
@@ -85,10 +88,10 @@ public class SingleProductActivity extends AppCompatActivity {
         adapter = new VideoAdapter(this, videos, onAdapterListener);
         productPresenter = new ProductPresenter(this);
         productPresenter.setOnSelectionProduct(onSelectionProduct);
-        android.util.Log.e("init", "SingleProductActivity" + replaceLI(param.product.description));
         ((TextView) findViewById(R.id.text_title)).setText(param.product.name);
         //((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(param.product.description, null, new UlTagHandler()));
-        ((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(replaceLI(param.product.description)));
+        //((TextView) findViewById(R.id.text_description)).setText(Html.fromHtml(replaceLI(param.product.description)));
+        wvDesc.loadData(param.product.description,"text/html",null);
         ((RecyclerView) findViewById(R.id.recycler_video)).setLayoutManager(new NonScrollableLinearLayoutManager(this));
         ((RecyclerView) findViewById(R.id.recycler_video)).setHasFixedSize(true);
         ((RecyclerView) findViewById(R.id.recycler_video)).setAdapter(adapter);

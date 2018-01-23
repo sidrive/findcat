@@ -17,15 +17,18 @@
             android:layout_height="150dp" />
 
         <TextView
+            android:text="@string/app_name"
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:padding="5dp"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <TextView
+            android:text="@string/app_name"
             android:id="@+id/text_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
