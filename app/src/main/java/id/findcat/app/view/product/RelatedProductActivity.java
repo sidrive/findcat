@@ -75,7 +75,7 @@ public class RelatedProductActivity extends AppCompatActivity {
         setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setTitle("Hasil Pencarian");
         products = new ArrayList<>();
         adapter = new RelatedProductAdapter(this, products, onAdapterListener);
         ((RecyclerView) findViewById(R.id.recycler_products)).setLayoutManager(new LinearLayoutManager(this));

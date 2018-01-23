@@ -40,7 +40,7 @@ public class HistoryActivity extends AppCompatActivity {
         setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            getSupportActionBar().setTitle("History");
         products = new ArrayList<>();
         adapter = new HistoryAdapter(this, products, onAdapterListener);
         productHistoryController = new ProductHistory.Controller(this);

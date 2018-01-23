@@ -81,6 +81,7 @@ public class SingleProductActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         dialog = new ProgressDialog(this);
         dialog.setMessage("Fetching Data");
         dialog.setCancelable(false);

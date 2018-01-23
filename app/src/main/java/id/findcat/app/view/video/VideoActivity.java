@@ -43,7 +43,7 @@ public class VideoActivity extends AppCompatActivity {
         setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            getSupportActionBar().setTitle(param.video.title);
         ((TextView) findViewById(R.id.text_title)).setText(param.video.title);
         ((TextView) findViewById(R.id.text_description)).setText(TextUtils.isEmpty(param.video.description) ? "" : param.video.description);
 
