@@ -5,5 +5,26 @@
   android:layout_width="match_parent"
   android:layout_height="?attr/actionBarSize"
   android:background="?attr/colorPrimary"
-  app:navigationIcon="@mipmap/ic_launcher"
-  app:popupTheme="@style/AppTheme.PopupOverlay"/>
+  app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+  app:popupTheme="@style/AppTheme.PopupOverlay">
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+      android:id="@+id/tvTitleToolbar"
+      android:textStyle="bold"
+      android:textSize="21dp"
+      android:textColor="@android:color/white"
+      android:gravity="center"
+      android:text="@string/app_name"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent" />
+    <ImageView
+      android:layout_alignParentRight="true"
+      android:src="@drawable/resizeimage"
+      android:layout_margin="5dp"
+      android:layout_width="100dp"
+      android:layout_height="?attr/actionBarSize" />
+  </RelativeLayout>
+</android.support.v7.widget.Toolbar>
+
