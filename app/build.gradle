@@ -12,7 +12,6 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "MediaDirectory", '"FindCatMedia"'
-        buildConfigField "String", "FindCatHost", '"http://app.findcat.id"'
         buildConfigField "String", "FindCatStaticToken", '"HrCxeM6GbM8Sr4G7eheKx3wSMM9bVOXZdqqeZA1oTTGHEMB3q90pPfXmE4EVEejf"'
 
     }
@@ -47,6 +46,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okhttp3:logging-interceptor:+'
     compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile "com.jakewharton:butterknife:8.7.0"
+    annotationProcessor "com.jakewharton:butterknife-compiler:8.7.0"
+
 
 }
 

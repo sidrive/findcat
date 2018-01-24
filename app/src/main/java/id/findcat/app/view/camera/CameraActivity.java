@@ -1,5 +1,7 @@
 package id.findcat.app.view.camera;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.media.MediaActionSound;
 import android.os.Bundle;
@@ -85,6 +87,7 @@ public class CameraActivity extends AppCompatActivity {
         findViewById(R.id.button_history).setOnClickListener(onHistoryClicked);
         findViewById(R.id.button_ok).setOnClickListener(onOkClicked);
         findViewById(R.id.button_clear).setOnClickListener(onCancelClicked);
+        findViewById(R.id.button_setting).setOnClickListener(onSettingClicked);
     }
 
     private void shutterClick() {
@@ -158,6 +161,12 @@ public class CameraActivity extends AppCompatActivity {
 
         presenter.searchProductByImage(request);
         isPreviewed = false;
+    };
+
+    private View.OnClickListener onSettingClicked = view -> {
+        DialogFragment dialogFragment = new SettingFragment();
+        dialogFragment.show(getFragmentManager(), "TAG");
+
     };
 
     private View.OnClickListener onCancelClicked = view -> {

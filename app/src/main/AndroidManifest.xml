@@ -42,7 +42,6 @@
             android:name="id.findcat.app.view.product.SingleProductActivity"
             android:screenOrientation="portrait"
             />
-
         <activity
             android:name="id.findcat.app.view.history.HistoryActivity"
             android:screenOrientation="portrait" />

@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import id.findcat.app.R;
+import id.findcat.app.api.HttpService;
+import id.findcat.app.preference.GlobalPreferences;
+import id.findcat.app.preference.PrefKey;
 import id.findcat.app.presenter.PermissionPresenter;
 import id.findcat.app.view.camera.CameraActivity;
+import java.net.URL;
 
 public class SplashActivity extends AppCompatActivity {
 
     private PermissionPresenter presenter;
+    private GlobalPreferences glpref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,11 @@ public class SplashActivity extends AppCompatActivity {
     private void init() {
         presenter = new PermissionPresenter(this);
         presenter.setListener(onPermissionListener);
-
+        glpref = new GlobalPreferences(this);
+        String URL = glpref.read(PrefKey.base_url,String.class);
+        if (URL.isEmpty()){
+            glpref.write(PrefKey.base_url,"http://app.findcat",String.class);
+        }
         Handler handler = new Handler();
         handler.postDelayed(() -> presenter.askingCameraPermission(), 2000);
     }

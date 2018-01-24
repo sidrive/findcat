@@ -5,6 +5,9 @@ import id.findcat.app.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import id.findcat.app.preference.GlobalPreferences;
+import id.findcat.app.view.splash.SplashActivity;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
@@ -45,14 +48,16 @@ public interface HttpService {
             @Query("api_token") String apiToken);
 
 
+
     class Factory {
         private static Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
         public static HttpService create() {
+            String Baseurl = "asdasd";
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BuildConfig.FindCatHost)
+                    .baseUrl(Baseurl)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(client())
