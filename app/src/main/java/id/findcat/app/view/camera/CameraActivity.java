@@ -16,6 +16,8 @@ import android.widget.TextView;
 import id.findcat.app.BuildConfig;
 import id.findcat.app.R;
 import id.findcat.app.database.entity.ProductHistory;
+import id.findcat.app.preference.GlobalPreferences;
+import id.findcat.app.preference.PrefKey;
 import id.findcat.app.presenter.CameraPresenter;
 import id.findcat.app.utils.ActivityUtils;
 import id.findcat.app.utils.DialogUtils;
@@ -51,13 +53,13 @@ public class CameraActivity extends AppCompatActivity {
     private boolean isFlashOn;
     private byte[] previewedPhoto;
     private ProgressDialog dialog;
-
+    private GlobalPreferences preferences;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         mAnaliticts = FirebaseAnalytics.getInstance(this);
-        Thread.setDefaultUncaughtExceptionHandler((t, e) -> FirebaseCrash.report(e));
+        preferences = new GlobalPreferences(this);
         init();
     }
 
@@ -148,6 +150,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onHistoryClicked = view -> {
+        Log.e("", "CameraActivity" + preferences.read(PrefKey.base_url,String.class));
         ActivityUtils.startActivity(CameraActivity.this, HistoryActivity.class);
     };
 
@@ -164,7 +167,7 @@ public class CameraActivity extends AppCompatActivity {
     };
 
     private View.OnClickListener onSettingClicked = view -> {
-        DialogFragment dialogFragment = new SettingFragment();
+        SettingFragment dialogFragment = new SettingFragment();
         dialogFragment.show(getFragmentManager(), "TAG");
 
     };
@@ -181,11 +184,11 @@ public class CameraActivity extends AppCompatActivity {
     };
 
     private View.OnClickListener onCaptureClicked = view -> {
+
         if (cameraPreview.mCamera != null)
             cameraPreview.mCamera.takePicture(null, null, (bytes, camera1) -> {
                 shutterClick();
                 showCameraController(false);
-
                 previewedPhoto = bytes;
             });
     };

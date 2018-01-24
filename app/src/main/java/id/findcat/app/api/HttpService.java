@@ -1,13 +1,12 @@
 package id.findcat.app.api;
 
 
-import id.findcat.app.BuildConfig;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import id.findcat.app.preference.GlobalPreferences;
-import id.findcat.app.view.splash.SplashActivity;
-import java.net.URL;
+import id.findcat.app.FindcatDexApp;
+import id.findcat.app.preference.PrefKey;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
@@ -32,17 +31,17 @@ import rx.Observable;
 public interface HttpService {
 
     @Multipart
-    @POST("api/search")
+    @POST("/api/search")
     Observable<Search.Response> search(
             @Part MultipartBody.Part image,
             @Part("api_token") RequestBody apiToken);
 
-    @GET("api/product/{productId}")
+    @GET("/api/product/{productId}")
     Observable<Product.Response> getProduct(
             @Path("productId") String productId,
             @Query("api_token") String apiToken);
 
-    @GET("api/product/{productId}/videos")
+    @GET("/api/product/{productId}/videos")
     Observable<Video.Response> getVideo(
             @Path("productId") String productId,
             @Query("api_token") String apiToken);
@@ -53,16 +52,17 @@ public interface HttpService {
         private static Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-
-        public static HttpService create() {
-            String Baseurl = "asdasd";
+        public static HttpService create(){
+            return createRetro(FindcatDexApp.getGlpref().read(PrefKey.base_url,String.class)).create(HttpService.class);
+        }
+        public static Retrofit createRetro(String base_url) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Baseurl)
+                    .baseUrl(base_url)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(client())
                     .build();
-            return retrofit.create(HttpService.class);
+            return retrofit;
         }
 
         private static OkHttpClient client() {
