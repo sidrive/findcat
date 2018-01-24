@@ -20,6 +20,7 @@ import id.findcat.app.preference.GlobalPreferences;
 import id.findcat.app.preference.PrefKey;
 import id.findcat.app.presenter.CameraPresenter;
 import id.findcat.app.utils.ActivityUtils;
+import id.findcat.app.utils.Const;
 import id.findcat.app.utils.DialogUtils;
 import id.findcat.app.utils.ImageUtils;
 import id.findcat.app.view.history.HistoryActivity;
@@ -60,6 +61,8 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         mAnaliticts = FirebaseAnalytics.getInstance(this);
         preferences = new GlobalPreferences(this);
+        /*Disable if you want app cah choose serve url*/
+        preferences.write(PrefKey.base_url, Const.BASE_URL_PROD,String.class);
         init();
     }
 
