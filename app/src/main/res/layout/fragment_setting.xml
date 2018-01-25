@@ -12,7 +12,7 @@
       android:layout_height="?attr/actionBarSize">
       <android.support.design.widget.TextInputEditText
         android:id="@+id/etHost"
-        android:inputType="number|text"
+        android:inputType="text"
         android:layout_margin="2dp"
         android:hint="Host"
         android:layout_width="match_parent"

@@ -62,7 +62,7 @@ public class CameraActivity extends AppCompatActivity {
         mAnaliticts = FirebaseAnalytics.getInstance(this);
         preferences = new GlobalPreferences(this);
         /*Disable if you want app cah choose serve url*/
-        preferences.write(PrefKey.base_url, Const.BASE_URL_PROD,String.class);
+        //preferences.write(PrefKey.base_url, Const.BASE_URL_PROD,String.class);
         init();
     }
 
