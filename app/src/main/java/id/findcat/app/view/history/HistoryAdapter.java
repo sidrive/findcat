@@ -35,19 +35,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.InfoProd
 
     @Override
     public InfoProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_product, parent, false);
+        View view = inflater.inflate(R.layout.item_history, parent, false);
         return new InfoProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(InfoProductViewHolder holder, int position) {
         ProductHistory product = products.get(position);
-        /*((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
+        ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
         ((TextView) holder.itemView.findViewById(R.id.text_date)).setText(product.createdAt);
 
-        ImageUtils.loadImageRotate(context, product.image, (ImageView) holder.itemView.findViewById(R.id.img_featured_image));*/
-        ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
-        ((TextView) holder.itemView.findViewById(R.id.text_description)).setText(Html.fromHtml(product.description));
+        ImageUtils.loadImageRotate(context, product.image, (ImageView) holder.itemView.findViewById(R.id.img_featured_image));
+        /*((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
+        ((TextView) holder.itemView.findViewById(R.id.text_description)).setText(Html.fromHtml(product.description));*/
 
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);
