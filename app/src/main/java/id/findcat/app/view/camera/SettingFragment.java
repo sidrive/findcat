@@ -66,7 +66,7 @@ public class SettingFragment extends DialogFragment {
     preferences = new GlobalPreferences(FindcatDexApp.getContext());
     getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT,
         LayoutParams.MATCH_PARENT);
-    getDialog().setTitle("CHOOSE SERVER");
+    getDialog().setTitle("Pilih Server");
     etHost.setText(preferences.read(PrefKey.base_url,String.class));
   }
 

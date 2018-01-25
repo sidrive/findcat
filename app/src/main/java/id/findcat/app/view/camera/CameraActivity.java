@@ -76,7 +76,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void init() {
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Analyzing...");
+        dialog.setMessage("Menganalisa gambar...");
         dialog.setCancelable(false);
         presenter = new CameraPresenter(this);
         presenter.setSearchProductListener(onSearchProductListener);
@@ -107,7 +107,7 @@ public class CameraActivity extends AppCompatActivity {
             cameraPreview.turnOnFlash();
         else cameraPreview.turnOffFlash();
 
-        ((TextView) findViewById(R.id.text_flash)).setText(b ? "Flash On" : "Flash Off");
+        ((TextView) findViewById(R.id.text_flash)).setText(b ? "Hidupkan Flash" : "Matikan Flash");
         ImageUtils.loadImageWithPlaceHolder(
                 this, (ImageView) findViewById(R.id.img_flash),
                 b ? R.drawable.ic_flash_on_white_24dp : R.drawable.ic_flash_off_white_24dp);
@@ -153,7 +153,6 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onHistoryClicked = view -> {
-        Log.e("", "CameraActivity" + preferences.read(PrefKey.base_url,String.class));
         ActivityUtils.startActivity(CameraActivity.this, HistoryActivity.class);
     };
 

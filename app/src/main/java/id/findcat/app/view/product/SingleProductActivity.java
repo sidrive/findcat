@@ -83,12 +83,12 @@ public class SingleProductActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       getSupportActionBar().setHomeButtonEnabled(true);*/
-      tvTitleToolbar.setText("Detail Product");
+      tvTitleToolbar.setText("Detail Produk");
     }
 
 
     dialog = new ProgressDialog(this);
-    dialog.setMessage("Fetching Data");
+    dialog.setMessage("Mengambil Data");
     dialog.setCancelable(false);
     videos = new ArrayList<>();
     adapter = new VideoAdapter(this, videos, onAdapterListener);

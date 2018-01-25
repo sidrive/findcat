@@ -58,7 +58,7 @@ public class HistoryActivity extends AppCompatActivity {
   private void init() {
     setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
     if (getSupportActionBar() != null)
-      tvTitleToolbar.setText("History");
+      tvTitleToolbar.setText("Riwayat");
       //getSupportActionBar().setTitle("History");
       //getSupportActionBar().setDisplayShowTitleEnabled(true);
       //getSupportActionBar().setDisplayHomeAsUpEnabled(true);

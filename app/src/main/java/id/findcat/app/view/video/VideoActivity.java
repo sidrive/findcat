@@ -56,7 +56,7 @@ public class VideoActivity extends AppCompatActivity {
   private void init() {
     setSupportActionBar(((Toolbar) findViewById(R.id.toolbar)));
     if (getSupportActionBar() != null)
-      tvTitleToolbar.setText("View Video");
+      tvTitleToolbar.setText("Lihat Video");
             /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setTitle(param.video.title);*/ {
