@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <id.findcat.app.view.camera.PreviewSurfaceView
+        <id.findcat_store.app.view.camera.PreviewSurfaceView
             android:id="@+id/preview_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <id.findcat.app.view.camera.DrawingView
+        <id.findcat_store.app.view.camera.DrawingView
             android:id="@+id/drawing_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

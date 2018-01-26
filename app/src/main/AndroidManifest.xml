@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.findcat.app">
+    package="id.findcat_store.app">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +12,7 @@
     <uses-feature android:name="android.hardware.camera.flash" />
 
     <application
-      android:name=".FindcatDexApp"
+      android:name="id.findcat_store.app.FindcatDexApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="id.findcat.app.view.splash.SplashActivity"
+            android:name="id.findcat_store.app.view.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,24 +31,24 @@
         </activity>
 
         <activity
-            android:name="id.findcat.app.view.camera.CameraActivity"
+            android:name="id.findcat_store.app.view.camera.CameraActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="id.findcat.app.view.product.RelatedProductActivity"
+            android:name="id.findcat_store.app.view.product.RelatedProductActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:label="Detail Product"
-            android:name="id.findcat.app.view.product.SingleProductActivity"
+            android:name="id.findcat_store.app.view.product.SingleProductActivity"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name="id.findcat.app.view.history.HistoryActivity"
+            android:name="id.findcat_store.app.view.history.HistoryActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="id.findcat.app.view.video.VideoActivity"
+            android:name="id.findcat_store.app.view.video.VideoActivity"
             android:screenOrientation="portrait" />
     </application>
 
