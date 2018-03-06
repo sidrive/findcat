@@ -63,7 +63,7 @@ public class VideoActivity extends AppCompatActivity {
     ((TextView) findViewById(R.id.text_description))
         .setText(TextUtils.isEmpty(param.video.description) ? "" : param.video.description);
 
-    ((WebView) findViewById(R.id.web_video)).loadUrl(param.video.embedUrl);
+    ((WebView) findViewById(R.id.web_video)).loadUrl("http://192.168.0.192//storage//b2b9WlLRCqzaatE8FpbVIM6uJIWZNpR4IMW2HbY5.mp4");
     ((WebView) findViewById(R.id.web_video)).setWebChromeClient(new WebChromeClient());
     ((WebView) findViewById(R.id.web_video)).getSettings().setJavaScriptEnabled(true);
     ((WebView) findViewById(R.id.web_video)).getSettings().setPluginState(PluginState.ON);

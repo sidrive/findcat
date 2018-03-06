@@ -40,8 +40,9 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
     public void onBindViewHolder(InfoProductViewHolder holder, int position) {
         Product product = products.get(position);
         ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(product.name);
-        ((TextView) holder.itemView.findViewById(R.id.text_description)).setText(Html.fromHtml(product.description));
-
+        if (product.description!=null){
+            ((TextView) holder.itemView.findViewById(R.id.text_description)).setText(Html.fromHtml(product.description));
+        }
 
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);

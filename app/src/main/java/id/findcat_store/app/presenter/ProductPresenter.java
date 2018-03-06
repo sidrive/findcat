@@ -1,6 +1,7 @@
 package id.findcat_store.app.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import id.findcat_store.app.BuildConfig;
 import id.findcat_store.app.R;
@@ -51,6 +52,7 @@ public class ProductPresenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("ProductPresenter", "onError: " + e.getMessage());
                         onSelectionProduct.onError(context.getString(R.string.failed_get_data));
                         onSelectionProduct.hideLoading();
                     }

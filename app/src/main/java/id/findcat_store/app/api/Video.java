@@ -20,7 +20,9 @@ public class Video {
         public String description;
         @SerializedName("embed_url") public String embedUrl;
         @SerializedName("uploaded_at")public String uploadedAt;
-        public List<String> thumbnails;
+
+        //public List<String> thumbnails;
+        public  String thumbnails;
         @SerializedName("company_rating") public int companyRating;
     }
 }

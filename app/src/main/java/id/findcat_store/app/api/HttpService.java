@@ -66,14 +66,15 @@ public interface HttpService {
 
         private static OkHttpClient client() {
             return new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .connectTimeout(120, TimeUnit.SECONDS)
+                    .writeTimeout(120, TimeUnit.SECONDS)
                     .addInterceptor(new HttpLoggingInterceptor()
                             .setLevel(HttpLoggingInterceptor.Level.BODY)
                     ).addInterceptor(chain -> {
                         Request original = chain.request();
                         Request request = original.newBuilder()
-                                .header("Accept", "applicaion/json")
+                                .header("Accept", "application/json")
                                 .header("Content-Type", "multipart/form-data")
                                 .method(original.method(), original.body())
                                 .build();

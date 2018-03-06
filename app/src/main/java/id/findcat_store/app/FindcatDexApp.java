@@ -2,8 +2,8 @@ package id.findcat_store.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import android.content.Context;/*
+import com.google.firebase.analytics.FirebaseAnalytics;*/
 import id.findcat_store.app.preference.GlobalPreferences;
 import retrofit2.Retrofit;
 
@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
  */
 
 public class FindcatDexApp extends Application {
-  private FirebaseAnalytics firebaseAnalytics;
+  /*private FirebaseAnalytics firebaseAnalytics;*/
   public static Context context;
   public static Activity activity;
   public static Retrofit retrofit;
@@ -21,8 +21,8 @@ public class FindcatDexApp extends Application {
   public void onCreate() {
     super.onCreate();
     context = getApplicationContext();
-    firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-    firebaseAnalytics.setAnalyticsCollectionEnabled(true);
+    /*firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    firebaseAnalytics.setAnalyticsCollectionEnabled(true);*/
     activity = new Activity();
     retrofit = null;
     glpref = new GlobalPreferences(context);

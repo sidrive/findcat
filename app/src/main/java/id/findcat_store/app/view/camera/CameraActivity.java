@@ -5,6 +5,7 @@ import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.ImageView;
@@ -152,8 +153,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private View.OnClickListener onOkClicked = view -> {
         File file = presenter.getCameraPhoto(previewedPhoto);
-        if (file == null) return;
-
+        //if (file == null) return;
+        if (file == null) Log.e("CameraActivity", ": " + file);
         Request request = new Request();
         request.apiToken = BuildConfig.FindCatStaticToken;
         request.image = file;

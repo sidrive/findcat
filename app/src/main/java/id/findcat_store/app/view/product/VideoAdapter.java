@@ -45,7 +45,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.InfoProductV
         ((TextView) holder.itemView.findViewById(R.id.text_name)).setText(video.title);
         ((TextView) holder.itemView.findViewById(R.id.text_date)).setText(DateUtils.getDateTimeStr(video.uploadedAt, "yyyy-MM-dd hh:mm:ss", "dd MMMM yyyy hh:mm:ss"));
 
-        ImageUtils.loadImage(context, video.thumbnails.get(0), (ImageView) holder.itemView.findViewById(R.id.img_video));
+        ImageUtils.loadImage(context, video.thumbnails, (ImageView) holder.itemView.findViewById(R.id.img_video));
 
         holder.itemView.findViewById(R.id.layout_item).setOnClickListener(view -> {
             adapterListener.onVideoClicked(position);

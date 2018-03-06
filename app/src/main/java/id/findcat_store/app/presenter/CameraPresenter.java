@@ -128,6 +128,7 @@ public class CameraPresenter {
             throw new RuntimeException(context.getString(R.string.listener_not_found));
         searchProductListener.showLoading();
         RequestBody image = RequestBody.create(MediaType.parse("image/*"), request.image);
+        Log.e("CameraPresenter", "searchProductByImage: " + request.image);
         MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", request.image.getName(), image);
         RequestBody apiToken = RequestBody.create(MediaType.parse("text/plain"), request.apiToken);
         subscription.add(HttpService.Factory.create().search(imageBody, apiToken)
@@ -142,12 +143,10 @@ public class CameraPresenter {
                     public void onError(Throwable e) {
                         searchProductListener.onError(e.getLocalizedMessage());
                         searchProductListener.hideLoading();
-                        Log.e("onError", "CameraPresenter" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(Search.Response response) {
-                        Log.e("CameraPresenter", "onNext: " + response.toString());
                         if (response.data == null)
                             searchProductListener.onError(response.message);
                         else
